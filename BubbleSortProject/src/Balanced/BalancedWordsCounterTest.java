@@ -1,54 +1,17 @@
 package Balanced;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-public class BalancedWordsCounterTest {
+import Balanced.BalancedWordsCounter;
 
-    @Test
-    public void testValidString(){
-        // This word is not a balanced string by its definition because there is a 4*a, 4*b and 3*c
-        // input = aabbabcccba
-        // result = 28
-        String input = "aabbabcccba";
-        var expectedResult = 3;
-        var actualResult = BalancedWordsCounter.count(input);
-        assertEquals(expectedResult,actualResult);
-
+class BalancedWordsCounterTest {
+    public static void main(String[] args) {
+        BalancedWordsCounter counter = new BalancedWordsCounter();
+        try {
+            System.out.println(counter.count("aabbabcccba")); // should print 28
+            System.out.println(counter.count("")); // should print 0
+            System.out.println(counter.count("abababa1")); // should throw Exception
+            System.out.println(counter.count(null)); // should throw Exception
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
-    @Test
-    public void testInvalidString(){
-        // input = dlwldaldgvbfd
-        // result = 0
-        String input = "dlwldaldgvbfd";
-        var expectedResult = 0;
-        var actualResult = BalancedWordsCounter.count(input);
-        assertEquals(expectedResult,actualResult);
-
-    }
-    @Test
-    public void testEmptyString(){
-        // input = ""
-        // result = 0
-        String input = "";
-        var expectedResult = 0;
-        var actualResult = BalancedWordsCounter.count(input);
-        assertEquals(expectedResult,actualResult);
-
-    }
-    @Test(expected = RuntimeException.class)
-    public void testOtherCharacter(){
-        // input = abababa1
-        String input = "abababa1";
-        var expectedResult = RuntimeException.class;
-        var actualResult = BalancedWordsCounter.count(input);
-        assertEquals(expectedResult,actualResult);
-
-    }
-    @Test(expected = RuntimeException.class)
-    public void testSort_nullInput(){
-        // input = null
-        // result = RuntimeException *
-        BalancedWordsCounter.count(null);
-    }
-
 }

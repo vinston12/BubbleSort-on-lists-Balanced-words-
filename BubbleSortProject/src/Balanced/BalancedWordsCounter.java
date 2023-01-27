@@ -4,48 +4,43 @@ import java.util.*;
 
 public class BalancedWordsCounter {
 
-    public static int count(String input) throws RuntimeException {
-        int result = 0;
-        // exceptions check
+    public int count(String input) throws Exception {
         if (input == null) {
-            throw new RuntimeException("RuntimeException *");
-        } else if (input.equals("")) {
+            throw new Exception("Input cannot be null");
+        }
+
+        if (!input.matches("[a-zA-Z]+")) {
+            throw new Exception("Input must contain only letters");
+        }
+
+        if (input.isEmpty()) {
             return 0;
-        } else {
-            char[] ch = input.toCharArray();
-            for (char c : ch) {
-                if (Character.isDigit(c)) {
-                    throw new RuntimeException("RuntimeException");
+        }
+
+        int count = 0;
+        for (int i = 0; i < input.length(); i++) {
+            for (int j = i + 1; j <= input.length(); j++) {
+                String subWord = input.substring(i, j);
+                if (isBalanced(subWord)) {
+                    count++;
                 }
             }
         }
-
-        if (hasSameCharacterAmount(input)) {
-
-        }
-        return result;
+        return count;
     }
-    // this method is checking if the amount of charaters is the same
-    private static boolean hasSameCharacterAmount(String input){
-        HashMap<Character,Integer> lettersCounterMap = new HashMap<>();
-        int valueCount = 0;
 
-        for (char c: input.toCharArray()) {
-            if (lettersCounterMap.containsKey(c)){
-                lettersCounterMap.put(c,lettersCounterMap.get(c)+1);
-            }else{
-                lettersCounterMap.put(c,1);
+    private boolean isBalanced(String word) {
+        int[] letters = new int[26];
+        for (char c : word.toCharArray()) {
+            letters[c - 'a']++;
+        }
+        int count = letters[word.charAt(0) - 'a'];
+        for (int letterCount : letters) {
+            if (letterCount != 0 && letterCount != count) {
+                return false;
             }
         }
-        Map.Entry<Character,Integer> entry = lettersCounterMap.entrySet().iterator().next();
-        Integer val = entry.getValue();
-
-        for (Integer i: lettersCounterMap.values()) {
-            if (val.equals(i)){
-                valueCount++;
-            }
-        }
-        return lettersCounterMap.size() == valueCount;
+        return true;
     }
 
 }
